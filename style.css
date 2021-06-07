@@ -2,8 +2,8 @@
   --color-primary: #eb2f64;
   --color-primary-light: #4ba4be;
   --color-primary-dark: #0c2c40;
-  --color-text-1: #f2c8a2;
-  --color-text-2: #f2935c;
+  --color-orange-1: #f2c8a2;
+  --color-orange-2: #f2935c;
   --color-light-3: #d94032;
 }
 
@@ -37,7 +37,7 @@ h1 {
   font-size: 80px;
   margin-bottom: 0;
   text-transform: uppercase;
-  color: var(--color-text-1);
+  color: var(--color-orange-1);
 }
 
 .container {
@@ -60,6 +60,7 @@ h1 {
   flex-wrap: wrap;
   font-size: 100px;
   margin-top: 40px;
+  cursor: crosshair;
 }
 
 .box {
@@ -69,15 +70,18 @@ h1 {
   justify-content: center;
   align-items: center;
   color: #ffffff;
-  background-color: var(--color-primary);
+  background-color: var(--color-orange-2);
   opacity: 0.8;
-  border: 1px solid var(--color-text-2);
+  border: 1px solid var(--color-light-3);
+}
+.box:hover {
+  background-color: var(--color-light-3);
 }
 
 #restart {
   padding: 10px 20px;
   background-color: var(--color-light-3);
-  color: var(--color-text-1);
+  color: var(--color-orange-1);
   border: none;
   border-radius: 20px;
 
