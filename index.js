@@ -1,48 +1,97 @@
-const gameBoard = (function () {
-  let board = ["X", "O", "X", "X", "X", "X", "O", "X", "O"];
+//  JBearCode
+//
 
-  // gameboard object?
-  return {
-    board,
+//// GAMEBOARD
+const gameBoard = (function () {
+  let board = ["", "", "", "", "", "", "", "", ""];
+
+  const setBox = (index, player) => {
+    board[index] = player;
   };
+
+  const getBox = () => {};
+
+  const reset = () => {
+    board.fill("", 0, board.length - 1); // using fill to retain array's reference
+  };
+
+  return { setBox, getBox, reset, board };
 })();
 
-//
-const players = (name) => {
-  const sayHello = () => console.log("hello!");
-
-  return { name, sayHello }; // name is same as name:name
-};
-
+//// DISPLAY
 const displayController = (function () {
-  const values = document.querySelectorAll(".box");
+  const boxes = document.querySelectorAll(".box");
+  // restart button reset coming from controller
+
+  // updateBoard (get gameBoard array and renders its values)
+  const updateBoard = () => {
+    gameBoard.board.forEach((el, index) => {
+      boxes[index].textContent = el;
+    });
+  };
+
+  // resultMessage  displays result message
+
+  return { updateBoard };
+})();
+
+//// MAIN CONTROLLER
+const mainController = (function () {
+  const boardElem = document.getElementById("board");
   const restartBtn = document.getElementById("restart-btn");
 
-  // add event listeners of boxes
-  document.querySelector("#board").addEventListener("click", (e) => {
+  const player = (type) => {
+    this.type = type;
+
+    const getType = () => {
+      return type;
+    };
+
+    return { getType };
+  };
+
+  const player1 = player("X");
+  const player2 = player("O");
+  let currentPlayer = player1.getType();
+
+  // add event listeners
+  boardElem.addEventListener("click", (e) => {
     // event delegation
-    const boxClicked = e.target; // get ID of clicked box
-    console.log(boxClicked["id"]);
+    const clickedBox = e.target; // get ID of clicked box
+
+    if (gameBoard.board[clickedBox["id"]] === "") {
+      startPlay(clickedBox, clickedBox["id"]);
+      changePlayer();
+    }
   });
   // don't do anything if gameIsOver or if clicked on same box
   // listeners should have update board
 
-  restartButton.addEventListener("click", (e) => {
+  restartBtn.addEventListener("click", (e) => {
     // reset board
-
+    gameBoard.reset();
+    console.log(gameBoard.board);
+    displayController.updateBoard();
     // reset players
-
-    const renderBoard = () => {
-      // render values from board
-    };
+    currentPlayer = player1.getType();
 
     // Result message
 
     // Turn message
-  })();
+  });
+
+  const startPlay = (clickedBox) => {
+    console.log("clicked on " + clickedBox["id"]);
+    gameBoard.setBox(clickedBox["id"], currentPlayer);
+    console.log("current player: " + currentPlayer);
+    displayController.updateBoard();
+  };
+
+  const renderBoard = () => {
+    // render values from board
+  };
+
+  const changePlayer = () => {
+    currentPlayer === "X" ? (currentPlayer = "O") : (currentPlayer = "X");
+  };
 })();
-
-// const gameController = (function () => {
-
-//   //
-// })();

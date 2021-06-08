@@ -78,7 +78,7 @@ h1 {
   background-color: var(--color-light-3);
 }
 
-#restart {
+#restart-btn {
   padding: 10px 20px;
   background-color: var(--color-light-3);
   color: var(--color-orange-1);
