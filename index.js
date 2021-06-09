@@ -1,5 +1,12 @@
-//  JBearCode
-//
+/*
+
+FLIPCARD
+https://www.w3schools.com/howto/howto_css_flip_card.asp
+
+checkbox hack -> to simulate an actual click event using only CSS 
+https://stackoverflow.com/questions/13630229/can-i-have-an-onclick-effect-in-css
+
+*/
 
 //// GAMEBOARD
 const gameBoard = (function () {
@@ -12,7 +19,7 @@ const gameBoard = (function () {
   const getBox = () => {};
 
   const reset = () => {
-    board.fill("", 0, board.length - 1); // using fill to retain array's reference
+    board.fill("", 0, board.length); // using fill to retain array's reference
   };
 
   return { setBox, getBox, reset, board };
