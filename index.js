@@ -67,7 +67,11 @@ const mainController = (function () {
     const clickedBox = e.target; // get ID of clicked box
 
     if (gameBoard.board[clickedBox["id"]] === "") {
+      // add condition if GameIsOver (display message new game?)
+      // gameIsOver();
       startPlay(clickedBox, clickedBox["id"]);
+      gameIsOver();
+      //display winner
       changePlayer();
     }
   });
@@ -100,5 +104,49 @@ const mainController = (function () {
 
   const changePlayer = () => {
     currentPlayer === "X" ? (currentPlayer = "O") : (currentPlayer = "X");
+  };
+
+  // logic that checks for when the game is over
+  const gameIsOver = () => {
+    // returns boolean
+    let winCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    // if board has places in indexes of the same Player, then this Player has won
+    let winnerFound = winCombinations.find((el) => {
+      return el.every((val) => {
+        return (
+          gameBoard.board[val] !== "" &&
+          gameBoard.board[val] === gameBoard.board[el[0]]
+        );
+      });
+    });
+
+    if (winnerFound) {
+      console.log("Winner is " + gameBoard.board[winnerFound[0]]);
+
+      // block gameBoard
+
+      // start new game?
+    }
+
+    // there's been a TIE
+    // Winner not found and all board places have been taken
+    if (gameBoard.board.every((el) => el != "") && !winnerFound) {
+      console.log("tie!");
+    }
+
+    //https://stackoverflow.com/questions/38811421/how-to-check-if-an-array-is-a-subset-of-another-array-in-javascript
+
+    // TIE
+    // if board is full and no winCombinations is found then it's a TIE
   };
 })();
