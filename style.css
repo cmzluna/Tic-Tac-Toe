@@ -37,6 +37,12 @@ h1 {
   font-size: 80px;
   margin-bottom: 0;
   text-transform: uppercase;
+  color: var(--color-orange-2);
+}
+
+h2 {
+  font-size: 50px;
+  margin-top: 25px;
   color: var(--color-orange-1);
 }
 

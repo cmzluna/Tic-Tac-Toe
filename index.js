@@ -1,5 +1,5 @@
 /*
-
+///////////   Ideas To implement next /////////
 FLIPCARD
 https://www.w3schools.com/howto/howto_css_flip_card.asp
 
@@ -28,6 +28,8 @@ const gameBoard = (function () {
 //// DISPLAY
 const displayController = (function () {
   const boxes = document.querySelectorAll(".box");
+  const messageBox = document.getElementById("communication");
+
   // restart button reset coming from controller
 
   // updateBoard (get gameBoard array and renders its values)
@@ -37,9 +39,21 @@ const displayController = (function () {
     });
   };
 
+  const setResult = (winner) => {
+    if (winner === "Draw") {
+      setMessage("It's a draw!");
+    } else {
+      setMessage(`Player ${winner} has won!`);
+    }
+  };
+
+  const setMessage = (message) => {
+    messageBox.textContent = message;
+  };
+
   // resultMessage  displays result message
 
-  return { updateBoard };
+  return { updateBoard, setResult, setMessage };
 })();
 
 //// MAIN CONTROLLER
@@ -66,13 +80,19 @@ const mainController = (function () {
     // event delegation
     const clickedBox = e.target; // get ID of clicked box
 
+    if (gameIsOver()) return;
     if (gameBoard.board[clickedBox["id"]] === "") {
-      // add condition if GameIsOver (display message new game?)
-      // gameIsOver();
       startPlay(clickedBox, clickedBox["id"]);
-      gameIsOver();
+      if (gameIsOver()) {
+        displayController.setMessage(
+          `Winner is ${gameBoard.board[winnerFound[0]]}`
+        );
+        return;
+      }
       //display winner
       changePlayer();
+
+      displayController.setMessage(`Player ${currentPlayer} turn!`);
     }
   });
   // don't do anything if gameIsOver or if clicked on same box
@@ -121,27 +141,19 @@ const mainController = (function () {
     ];
 
     // if board has places in indexes of the same Player, then this Player has won
-    let winnerFound = winCombinations.find((el) => {
+    return (winnerFound = winCombinations.find((el) => {
       return el.every((val) => {
         return (
           gameBoard.board[val] !== "" &&
           gameBoard.board[val] === gameBoard.board[el[0]]
         );
       });
-    });
-
-    if (winnerFound) {
-      console.log("Winner is " + gameBoard.board[winnerFound[0]]);
-
-      // block gameBoard
-
-      // start new game?
-    }
+    }));
 
     // there's been a TIE
     // Winner not found and all board places have been taken
     if (gameBoard.board.every((el) => el != "") && !winnerFound) {
-      console.log("tie!");
+      displayController.setMessage(`a tie!`);
     }
 
     //https://stackoverflow.com/questions/38811421/how-to-check-if-an-array-is-a-subset-of-another-array-in-javascript
